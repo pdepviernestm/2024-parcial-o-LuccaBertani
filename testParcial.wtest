@@ -1,0 +1,91 @@
+import parcial.*
+
+describe "Tests emociones"{
+
+test "Una persona es adolescente"{
+
+var persona = new Persona(edad=17)
+
+assert.that(persona.edad().between(12,19))
+
+}
+
+test "Persona tiene nueva emocion"{
+
+var persona = new Persona(edad= 15)
+
+var ansiedad = new Ansiedad(intensidad = 10, nivelNerviosismo= 50)
+
+persona.nuevaEmocion(ansiedad)
+
+assert.that(persona.emociones().contains(ansiedad))
+
+}
+
+test "Esta por explotar emocionalmente"{
+  var persona = new Persona(edad= 16)
+
+  intensidadEmociones.modificarIntensidadLimite(10)
+
+  var furia = new Furia(intensidad = 100)
+  var alegria = new Alegria(intensidad = 50)
+
+  persona.nuevaEmocion(furia)
+  persona.nuevaEmocion(alegria)
+
+  var evento1 = new Evento(impacto = 1000,descripcionEvento = "Empato River")
+  var evento2 = new Evento(impacto = 500, descripcionEvento = "Gano River")
+  furia.aprenderPalabrota("jugadores#&#%")
+  persona.vivirEvento(evento1)
+  persona.vivirEvento(evento2)
+  assert.that(persona.estaPorExplotarEmocionalmente())
+}
+
+test "Una persona vive un evento"{
+
+  var persona = new Persona(edad= 16)
+
+  intensidadEmociones.modificarIntensidadLimite(200)
+
+  var furia = new Furia(intensidad = 100)
+  persona.nuevaEmocion(furia)
+  var evento1 = new Evento(impacto = 1000,descripcionEvento = "Cobraron Penal")
+  furia.aprenderPalabrota("robo")
+  persona.vivirEvento(evento1)
+
+  assert.that(persona.emociones().all({emocion => emocion.eventos().contains(evento1)}))
+
+}
+
+test "Modificar valor de intensidad elevada"{
+
+  var persona = new Persona(edad= 16)
+
+  intensidadEmociones.modificarIntensidadLimite(200)
+
+  assert.equals(200,intensidadEmociones.intensidadLimite())
+
+}
+
+test "Grupo de personas viven un evento"{
+  var persona1 = new Persona(edad= 16)
+  var persona2 = new Persona(edad= 16)
+  var persona3 = new Persona(edad= 18)
+  var persona4 = new Persona(edad= 17)
+
+  var personas = [persona1,persona2,persona3,persona4]
+
+  var alegria = new Alegria (intensidad = 50)
+
+  persona1.nuevaEmocion(alegria)
+  persona1.nuevaEmocion(alegria)
+  persona1.nuevaEmocion(alegria)
+  persona1.nuevaEmocion(alegria)
+
+  var evento = new Evento(impacto = 500,descripcionEvento = "Festejar victoria")
+
+  personas.forEach({persona => persona.vivirEvento(evento)})
+  assert.that(personas.all({persona=> persona.emociones().all({emocion=>emocion.eventos().contains(evento)})}))
+}
+
+}
