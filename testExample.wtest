@@ -1,9 +1,52 @@
-import example.pepita
+import example.*
 
 describe "group of tests for pepita" {
 
   test "pepita has initial energy" {
     assert.equals(100, pepita.energy())
   }
+
+}
+
+describe "Tests emociones"{
+
+test "Una persona es adolescente"{
+
+var persona = new Persona(edad=17)
+
+assert.that(persona.edad().between(12,19))
+
+}
+
+test "Persona tiene nueva emocion"{
+
+var persona = new Persona(edad= 15)
+
+var ansiedad = new Ansiedad(intensidad = 10, nivelNerviosismo= 50)
+
+persona.nuevaEmocion(ansiedad)
+
+assert.that(persona.emociones().contains(ansiedad))
+
+}
+
+test "Esta por explotar emocionalmente"{
+  var persona = new Persona(edad= 16)
+
+  var furia = new Furia(intensidad = 100)
+  var alegria = new Alegria(intensidad = 50)
+
+  persona.nuevaEmocion(furia)
+  persona.nuevaEmocion(alegria)
+
+  var evento1 = new Evento(impacto = 1000,descripcionEvento = "Empato River")
+  var evento2 = new Evento(impacto = 500, descripcionEvento = "Gano River")
+  furia.aprenderPalabrota("jugadores#&#%")
+  persona.vivirEvento(evento1)
+  persona.vivirEvento(evento2)
+  assert.that(persona.estaPorExplotarEmocionalmente())
+}
+
+
 
 }
