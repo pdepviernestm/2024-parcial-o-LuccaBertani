@@ -1,12 +1,3 @@
-object pepita {
-  var energy = 100
-
-  method energy() = energy
-
-  method fly(minutes) {
-    energy = energy - minutes * 3
-  }
-}
 
 class Persona{
 
@@ -51,9 +42,14 @@ method intensidadElevada() = intensidad >= intensidadEmociones.intensidadLimite(
 
 method liberarse(evento){
   intensidad = evento.impacto()
+  self.factorLiberacion(evento)
 }
 
-method puedeLiberarse() = self.intensidadElevada()
+method factorLiberacion(evento)
+
+method puedeLiberarse() = self.intensidadElevada() and self.factorPosibilidadLiberarse()
+
+method factorPosibilidadLiberarse() = true
 
 }
 
@@ -77,25 +73,23 @@ method aprenderPalabrota(palabrota){
   palabrotas.add(palabrota)
 }
 
-override method puedeLiberarse() = super() and palabrotas.any({palabrota => palabrota.length() > 7})
+override method factorPosibilidadLiberarse() = palabrotas.any({palabrota => palabrota.length() > 7})
 
-override method liberarse(evento){
-super(evento)
+override method factorLiberacion(_){
 palabrotas.remove(palabrotas.first())
-} 
+}
 
 }
 
 class Alegria inherits Emocion{
 
-override method liberarse(evento){
-super(evento)
-if(intensidad < 0){
+override method factorPosibilidadLiberarse() = self.eventos().size() % 2 == 0
+
+override method factorLiberacion(_){
+  if(intensidad < 0){
   intensidad = -1*intensidad
 }
 }
-
-override method puedeLiberarse() = super() and self.eventos().size() % 2 == 0
 
 }
 
@@ -107,19 +101,17 @@ method cambiarCausa(causaNueva){
   causa = causaNueva
 }
 
-override method puedeLiberarse() = super() and causa != "melancolia"
+override method factorPosibilidadLiberarse() = causa != "melancolia"
 
-override method liberarse(evento){
-super(evento)
-causa = evento.descripcion()
-
+override method factorLiberacion(evento){
+  causa = evento.descripcion()
 }
 
 }
 
 class DesagradoOTemor inherits Emocion{
 
-override method puedeLiberarse() = super() and eventosVividos.size() > intensidad
+override method factorPosibilidadLiberarse() = eventosVividos.size() > intensidad
 
 }
 
@@ -127,15 +119,14 @@ class Ansiedad inherits Emocion{
 
 var nivelNerviosismo
 
-override method puedeLiberarse() = super() and eventosVividos.size() > intensidad*nivelNerviosismo
+override method factorPosibilidadLiberarse() = eventosVividos.size() > intensidad*nivelNerviosismo
 
-override method liberarse(evento){
- super(evento)
+override method factorLiberacion(evento){
  intensidad += nivelNerviosismo + evento.impacto()
 }
 }
-/*La herencia permite utilizar los metodos y atributos de la clase padre para evitar la repetición de codigo. El polimorfismo lo utilizo para llamar a los mismos
-metodos que la clase padre pero realizandole modificaciones extra. Aparte para utilizar las funcionalidades del metodo de la clase padre sin repetir codigo, utilize super()*/
+/*La herencia permite utilizar los metodos y atributos de la clase padre para evitar la repetición de codigo. El polimorfismo permite que un conjunto de objetos
+puedan admitir un mismo mensaje/metodo. En este caso utilizo los mismos metodos que la clase padre pero actuando de manera diferente, utilizando el override. */
 
 class Evento{
 
