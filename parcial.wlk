@@ -95,7 +95,7 @@ override method factorLiberacion(_){
 
 class Tristeza inherits Emocion{
 
-var causa
+var causa = "melancolia"
 
 method cambiarCausa(causaNueva){
   causa = causaNueva
