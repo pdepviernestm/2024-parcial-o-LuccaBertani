@@ -1,12 +1,4 @@
-import example.*
-
-describe "group of tests for pepita" {
-
-  test "pepita has initial energy" {
-    assert.equals(100, pepita.energy())
-  }
-
-}
+import parcial.*
 
 describe "Tests emociones"{
 
@@ -33,7 +25,7 @@ assert.that(persona.emociones().contains(ansiedad))
 test "Esta por explotar emocionalmente"{
   var persona = new Persona(edad= 16)
 
-  intensidadEmociones.modificarIntensidadLimite(200)
+  intensidadEmociones.modificarIntensidadLimite(10)
 
   var furia = new Furia(intensidad = 100)
   var alegria = new Alegria(intensidad = 50)
